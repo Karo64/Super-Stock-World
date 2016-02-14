@@ -8,7 +8,7 @@ public class Trades {
 	 
 	public int Quantity;
 	public double  Price;
-	public long Time;
+	public long time;
 	public types Type;
 
 	
@@ -32,7 +32,7 @@ public class Trades {
 	}
 	
 	public long getTime(){
-		return Time;
+		return time;
 	}
 	
 
