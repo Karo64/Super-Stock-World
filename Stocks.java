@@ -24,7 +24,7 @@ public abstract class Stocks {
 
 	abstract public double calculateDividendYield();
 	
-	public void setPrice(double marketPrice){
+	public void setPrice(double PriceofMarket){
 		this.PriceofMarket = PriceofMarket;
 	}
 	
@@ -37,7 +37,7 @@ public abstract class Stocks {
 	}
 	
 
-	protected void recordTrade(long time, int quantity, TradeType type, double price){
+	protected void recordTrade(long time, int quantity, types type, double Price){
 		// Add the new trade to the trade history
 		tradeHistory.add(new Trade(time, Quantity, type, Price));
 	}
