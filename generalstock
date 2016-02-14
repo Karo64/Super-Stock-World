@@ -1,0 +1,18 @@
+package SuperStockWorld;
+
+// Stock that is of type general
+
+public class generalstock extends Stocks{
+	 
+	 
+	public generalstock(String symbol, double lastDividend, double Value){
+		super(symbol, lastDividend, Value);
+	}
+	
+	// yield based on the formula:
+	 //Last Dividend/Market Price 
+	 
+	public double computationDividendYield(){
+		return lastDividend/marketPrice;
+	}
+}
