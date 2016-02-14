@@ -3,7 +3,11 @@ import org.junit.*;
 import SuperStockWorld.*;
 import static org.junit.Assert.assertEquals;
 
-public class JTest {	
+public class JTest {
+	
+	
+	
+	
 	public static final double MACHINE_TOLERANCE = 1e-08;
 
 	@Test
@@ -11,7 +15,7 @@ public class JTest {
 		Trade testTrade = new Trade( new Date().getTime(), 1000, TradeType.BUY, 11);
 		
 		assertEquals(1000,          testTrade.getQuantity());
-		assertEquals(Types.buy, testTrade.getType());
+		assertEquals(types.buy, testTrade.getType());
 		assertEquals(11,            testTrade.getPrice(),       MACHINE_TOLERANCE);
 	}
 	
@@ -40,11 +44,10 @@ public class JTest {
 	 */
 	@Test
 	public void testCommonStockDividendYeild() {
-		Stock testStock = new generalstock("POP", 8, 100);
-		
-		// Set fictitious market price
-		double marketTestPrice = 100.0;
-		testStock.setPrice(marketTestPrice);
+		Stocks testStock = new generalstock("POP", 8, 100);
+	
+		double marketPrice = 100.0;
+		testStock.setPrice(marketPrice);
 		
 		assertEquals(8.0/marketTestPrice,  testStock.calculateDividendYield(), MACHINE_TOLERANCE);
 	}
@@ -56,7 +59,7 @@ public class JTest {
 		
 		// Set fictitious market price
 		double marketTestPrice = 100.0;
-		testStock.setPrice(marketTestPrice);
+		testStock.setPrice(marketPrice);
 		
 		assertEquals((0.02*100.0)/marketTestPrice,  testStock.calculateDividendYield(), MACHINE_TOLERANCE);
 	}
@@ -66,18 +69,18 @@ public class JTest {
 	public void testCalculatePERatio(){
 		Stock testStock = new generalstock("ALE", 23, 60);
 		
-		// Set fictitious market price
-		double marketTestPrice = 100.0;
-		testStock.setPrice(marketTestPrice);
+		// Set fake market price
+		double markettPrice = 100.0;
+		testStock.setPrice(marketPrice);
 		
 		assertEquals(marketTestPrice/23.0,  testStock.calculatePERatio(), MACHINE_TOLERANCE);
 	}
 
 	@Test
 	public void testRecord() throws InterruptedException{
-		Stock testStock = new CommonStock("ALE", 23, 60);
+		Stocks testStock = new CommonStock("ALE", 23, 60);
 		
-		// Set fictitious market price
+		// Set fake market price
 		double marketTestPrice = 100.0;
 		testStock.setPrice(marketTestPrice);
 		
@@ -120,7 +123,7 @@ public class JTest {
 	
 		class WorkAroundTestStock extends Stock{
 			public WorkAroundTestStock(String symbol, double lastDividend,
-					double parValue) {
+					double Value) {
 				super(symbol, lastDividend, parValue);
 			}
 
@@ -142,8 +145,8 @@ public class JTest {
 		WorkAroundTestStock testStock = new WorkAroundTestStock("ALE", 23, 60);
 		
 		// Set fictitious market price
-		double marketTestPrice = 100.0;
-		testStock.setPrice(marketTestPrice);
+		double marketPrice = 100.0;
+		testStock.setPrice(marketPrice);
 				
 		// No trade has been made yet so the volume weighted stock price should be zero 
 		assertEquals(0.0, testStock.volWeightStockPrice15(), MACHINE_TOLERANCE);
@@ -151,7 +154,7 @@ public class JTest {
 		// Useful to know the current time
 		long currentTime = new Date().getTime();
 		
-		// Create some fictitious trades to occur
+		
 		testStock.buy (30, 101.0);
 		testStock.sell(60,  99.0);
 		testStock.buy (40,  99.9);
@@ -183,10 +186,7 @@ public class JTest {
 
 	}
 	
-	/* testGBCEAllShareIndex
-	 * Tests the GBCE All Share Index calculating 
-	 * code is correct.
-	 */
+
 	@Test
 	public void testAllShareIndex(){
 		// Generate an array of stocks
@@ -198,7 +198,7 @@ public class JTest {
 		stocks.add(new PreferredStock("GIN", 8, .02, 100));
 		stocks.add(new generalstock("JOE", 13, 250));
 		
-		// Set some fictitious market prices for the stocks
+		// Set some fake market prices for the stocks
 		int marketPrices[] = { 101, 99, 89, 20, 44 };
 		for(int i=0; i<marketPrices.length; i++){
 		
@@ -206,17 +206,17 @@ public class JTest {
 		}
 		
 		// Calculate expected GBCE All Share Index from above values
-		// according to the formula given 
-		double expectedGBCE = 1.0;
+	
+		double GBCE = 1.0;
 		for(int i=0; i<marketPrices.length; i++){
-			expectedGBCE *= marketPrices[i];
+			GBCE *= marketPrices[i];
 		}
-		expectedGBCE = Math.pow(expectedGBCE, 1.0/(double)marketPrices.length);
+		GBCE = Math.pow(GBCE, 1.0/(double)marketPrices.length);
 
-		// Print what that expected result is
-		System.out.println("The expected GBCE All Share Index is " + expectedGBCE);
+		//  expected result is
+		System.out.println("The expected  All Share Index is " + GBCE);
 		
-		// And now test for equality
-		assertEquals(expectedGBCE, GBCEAllShareIndex.calculateGBCEAllShareIndex(stocks), MACHINE_TOLERANCE);
+	
+		assertEquals(GBCE, AllShareIndex.computationAllShareIndex(stocks), MACHINE_TOLERANCE);
 	}
 }
